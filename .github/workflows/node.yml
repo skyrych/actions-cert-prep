@@ -4,16 +4,16 @@ on:
         branches:
             - main
     workflow_dispatch:
-      
+
 jobs:
     test:
         runs-on: ubuntu-latest
         steps:
         - name: Checkout repository
-          uses: actions/checkout@v2
+          uses: actions/Checkout@v3
 
         - name: Install dependencies
-          uses: npm install
+          run: npm install
           
         - name: Run test suite
           run: npm test
@@ -23,13 +23,13 @@ jobs:
         needs: test
         steps:
         - name: Checkout repository
-          uses: actions/checkout@v2
+          uses: actions/Checkout@v3
 
         - name: Install dependencies
-          uses: npm install
+          run: npm install
 
         - name: Start server
-          uses: node app.js &
+          run: node app.js &
 
         - name: Conditional steps
           run: echo "This step only runs on the main branch"

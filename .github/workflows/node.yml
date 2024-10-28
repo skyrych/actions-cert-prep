@@ -1,0 +1,36 @@
+name: Node.js CI
+on:
+    push:
+        branches:
+            - main
+    workflow_dispatch:
+      
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+
+        - name: Install dependencies
+          uses: npm install
+          
+        - name: Run test suite
+          run: npm test
+
+    start-server:
+        runs-on: ubuntu-latest
+        needs: test
+        steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+
+        - name: Install dependencies
+          uses: npm install
+
+        - name: Start server
+          uses: node app.js &
+
+        - name: Conditional steps
+          run: echo "This step only runs on the main branch"
+          if: github.ref == 'refs/head/main'
